@@ -1,0 +1,28 @@
+language: python
+python:
+  - 3.6
+install:
+  - pip install -r requirements.txt
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database travistestdb;' -U postgres
+  - python manage.py migrate --settings=locallibrary.settings.test
+script:
+  # - coverage run --source= api manage.py test --settings=locallibrary.settings.test
+  - flake8 .
+after_success:
+  - coveralls
+notifications:
+  matrix:
+    - slack
+  slack:
+    secure: GbJcJZh4w32r8SMu9JB3FwyHBkWLS+cXMboXp+8Xfq8dMgQkmNkaEnurydxpdwi9cJED547ORRzwzTzrMjeD1dkxg4m7StdJTLR60EBdfFqMx8ROSAg0qVQjrY7/tf/eqKTIoB1Qx5GVKzpNLG8QqOZ1z3mqCSrRlacc6FFudQUOyfHvPuray5BISsdJl0VA6va4FahcRvu1tP1qY1Fz1GXXnPugDJ/lfitxo0xz5dobfKDux8r9HF97sR0LnGDIS7Jjt4ebm49yJbsD2XfMx7gkcfYTUGx24d/5INDBPjDpRPHblGss2f3KeSSmFg/POpoBSmuhz2JOgcikLHNnhrRVve3bFWLBa0hxwoIyiE8kpb/yobHlQRjnaLG67hihO56CMmCxiwB/X4T/lGgMhA6IwcNPDSjF/lOOKbxU0EjD9HJSXuCK+K9fxcJQr3JO/DfOr3pCYpu90OKFkv4Y3RW1xVAMsX2z1nvAUdZrhaGZOvgiQMXp4PUzKhQlVgDo6cGY/FncTqWEVwl2AdNgFAlsxBHyNGpBfFyA5TgFJJqHM2GvKRpFBLkxUSHfohS/MKWeFtbuK6qFGP02XVcPA70mcFkJW1LZSihcnMFHLdVDoPVaRq4R9i3VBQBH7q5DNxlCtum7WptuAOip318hFJCupBZvZ2XsUmcK+N7urdA=
+deploy:
+  provider: heroku
+  api_key:
+    secure: Uv53qxqRZ/91m5dLoy8nptMW62WMlOrjaWWjknoKnMglXzP/bYHIlrSafo7PxdzXLybysHVi0t2QIfisyOyKcgNdGpLIVd95Sx8c9p7hsXsyp9RtHRkxWi+dOVg8tlEtBS1rmsg36h5uWdjmgT+fdb+m3XjmQ0faK85Dw8a54D0kB6QtZskPlklZabZ7BPXmeTk5Meyqs112lylHWakFRd8NkzxUDCCvecP+6Me5dITjnBxwg3Ss9eWlHlbR/k8VXEkv6QlERwZegC0qJ3ggatbWKoWJH4GEb77of62gOGfv5Xo6awb3nAIluy4ppmQvJ77cbzarA6TAksV+scBi9N4gpnJqf5it6J2QSH61z6Bf60dIhR2g/g7rMIDtzyiSRV9kiLgrApiCZxTDfXyiv1ijqdC+//3d6ASMOe8pXI1UjZYUnPplxBORKvVXxD/nSP3SuDBqrnAo8k4EWJYx5kNn+zKpc3yF2wx5mU8Uw/vhSMyfkvuWvtvVEoOGjZrWddWkXYNNCIsKHYV9qiG/ooRjLl44wFu7zwSG+OJKKyeODzyjZ6ht7QXMWaQas1gWAu0vMvGZ0XL6G3Duw0PvTJC+nnyCMB2YKKr7nekX7gWyabUVCcv5dm5kxZF8wOULQ2eqh388IqHx9DaliJ9Zb3iELEhldo+sgjcXK8VdD5Q=
+  app:
+    main: moz-locallibrary
+  run:
+    - python manage.py migrate --noinput
