@@ -9,6 +9,7 @@ before_script:
 - psql -c 'create database travistestdb;' -U postgres
 - python manage.py migrate --settings=locallibrary.settings.test
 script:
+- coverage run --source=api manage.py test --settings=locallibrary.settings.test
 - flake8 .
 after_success:
 - coveralls
@@ -20,7 +21,7 @@ notifications:
 deploy:
   provider: heroku
   api_key:
-    secure: Vv24nZIKm4iqb8rDyGNcUY7UJ6IVvaqnovrkX1S1ATFRqP2SXp3+HiLHfrFm6Z03OJYfOvgYbzsxjFh17sJOFnSfxyKyGZq02TKtj0uAYd3vQ9et8cNebWjbAa3rTaWYL5Yh/Y7V09A2UMAHm1rSXWt0TJx1iPaMNn5iet6012iZ7a/PScQ2k5FpGOFpNRwwD8uh0SkmjHNXV3ovzhDwKt2K37Lj16HvqB2L2ayJ2eJkFKQmCThnBpJdvcfaLGdpsMH4RE1VhKmBg2ihx8almlbpAom8LL+2P1/Ue6KZLXd73XNOgwKnQdHUXyp5Fyow4NogzsGnB/o40o1IlUSynTfK7IQeHVErlYj3mgOBi9Nyfh94XW5WO/x4gihdC/IMgxILG8WYduz3LDTzpOhxY4BG/ItNGk4lM/LF06F28w5mgIzJdTX8fQBNwp7EBiww5JF9mVKpDsLMLDjDKMKL034qlrPaAyh2bYA4IbuVfDl58dp0g1LIRaA+dzw9inczMr9+4UoPyEYzRJWxWe39zYPvUnLIhIAa0tWUnE3wSUsLOTdTZbUAJLKyEK+ts2l61DcltXtgx1bnlUwA6xNt9mL1fP17nEKsfty5Z1FG8UBIEo++qn1zpbw4NqKrV+K/Bb6wHxIQQ3EnD3iCuYZC2NpeZQxAjt6m57FGAHchxtw=
+    secure: VuTCvM88wH6SxGO2dLKJHwm/7hm3z/k/z2j7/xko5OPYHGuO9i8G+1VJfgGTxEvnZW7qBBoIMveS2h2BguhZBPc9tfY1hcCd2iM51c6UQcGVFL/EEPNHKdCKrzhnOCUbw7ssggESu2lMdeR68NBysQ+h7pVdT9YMbyNZRo5AjqPDQlJBK66g8Jiywsamzy8hQRnoxwreNtbHP+RCqMcYcvJ3aWXUoNwVAPzRCGSy7osK5wWw3vywDX4FBFsJIg8trwlaqYl0NVb1JBP8o789sxJD+3L1i9ltsZWKOOZn3HBfGr43J1s3T76KmmoCtXgqOsVu3i+qKwCURPNJlhdP42gM6DTYtDwwMVLR68Qh8wPs9ZRQ5zR4qUxPUdWOm+f+EsbUWwmniY5GA8tZNyeB2DUq8AJQAVZaJY6R7NVHD4XUy8Ytf/4gKSO1z/JuaRmfQQ2fkHH6BEDqYwUNSPqoy0xdeISLTODlotiuaMHj908cXtd8rXMQK9VQ5LBSYlVZdkLAYWbfDF8vDRDvIDrw83nF7v/9jg+OLLZvojcT1AagapC7u+4++vAmL+EJ44aQiuSekkJuQPA9RDdkILFupg8yQLE0j5xtizKprmyetO2RXo0ZsCDKVjShvTg1VfV9/snQqifyV2NtZhwywLzPjSRNE6m/yAsJwCCGqPM4OvQ=
   app:
     main: moz-locallibrary
   run:
