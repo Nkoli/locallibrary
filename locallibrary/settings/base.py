@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'api',
     'rest_framework',
 ]
@@ -119,3 +118,6 @@ django_heroku.settings(locals())
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Register custom user object
+AUTH_USER_MODEL = 'api.User'
